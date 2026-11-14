@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="CHANDRAYAAN-X Pragyan Rover public mission telemetry." />
+    <title>CHANDRAYAAN-X | Mission Control</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="CHANDRAYAAN-X home">
+          <span class="brand-mark">CX</span>
+          <span><strong>CHANDRAYAAN-X</strong><small>MISSION CONTROL / PRAGYAN</small></span>
+        </a>
+        <div class="top-meta"><span class="live-dot"></span><span id="connection-label">OFFLINE</span><span class="divider"></span><span>PUBLIC TELEMETRY</span></div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div>
+            <p class="eyebrow">SCHOOL SPACE EXPLORATION PROJECT</p>
+            <h1>Pragyan <span>Mission Control</span></h1>
+            <p class="subhead">Live rover telemetry and mission status.</p>
+          </div>
+          <div class="mission-state">
+            <span class="state-label">COMMUNICATION LINK</span>
+            <strong id="link-state">NOT CONNECTED</strong>
+            <small id="last-update">Awaiting telemetry</small>
+          </div>
+        </section>
+
+        <section class="status-strip" aria-label="Mission status">
+          <div><span class="metric-label">ROVER MODE</span><strong id="mode">—</strong></div>
+          <div><span class="metric-label">ROVER STATUS</span><strong id="rover-status">NO DATA</strong></div>
+          <div><span class="metric-label">MISSION SESSION</span><strong id="session">—</strong></div>
+          <div><span class="metric-label">MESSAGES RECEIVED</span><strong id="message-count">0</strong></div>
+        </section>
+
+        <section class="section-heading">
+          <div><p class="eyebrow">LIVE INSTRUMENTATION</p><h2>Telemetry</h2></div>
+          <span class="read-only-tag">VIEW ONLY</span>
+        </section>
+
+        <section class="telemetry-grid">
+          <article class="tile"><span class="metric-label">ULTRASONIC DISTANCE</span><div class="metric"><strong id="distance">—</strong><span>cm</span></div><p id="obstacle-state" class="tile-note">Waiting for sensor data</p></article>
+          <article class="tile"><span class="metric-label">DRIVE SPEED SETTING</span><div class="metric"><strong id="speed">—</strong><span>/ 255</span></div><p class="tile-note">Controller speed value</p></article>
+          <article class="tile"><span class="metric-label">OBSTACLE EVENTS</span><div class="metric"><strong id="obstacle-count">—</strong><span>events</span></div><p class="tile-note">Reported by rover firmware</p></article>
+          <article class="tile"><span class="metric-label">LAST TELEMETRY</span><div class="metric metric-time"><strong id="telemetry-age">—</strong></div><p class="tile-note">Browser receive time</p></article>
+        </section>
+
+        <section class="lower-grid">
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">MISSION FEED</p><h2>Event log</h2></div><span class="panel-index">01</span></div>
+            <div id="event-log" class="event-log"><div class="empty-state">No mission events received yet.</div></div>
+          </article>
+          <article class="panel connection-panel">
+            <div class="panel-head"><div><p class="eyebrow">NETWORK</p><h2>Link diagnostics</h2></div><span class="panel-index">02</span></div>
+            <dl class="diagnostics">
+              <div><dt>Broker connection</dt><dd id="broker-state">Not configured</dd></div>
+              <div><dt>Telemetry topic</dt><dd>Subscribed when connected</dd></div>
+              <div><dt>Access level</dt><dd>Public / read-only</dd></div>
+              <div><dt>Control channel</dt><dd>Disabled in Stage 1</dd></div>
+            </dl>
+            <p class="notice">This public page cannot drive the rover. Operator control will be added only after authenticated access and server-side permissions are configured.</p>
+          </article>
+        </section>
+      </main>
+
+      <footer><span>CHANDRAYAAN-X · PRAGYAN ROVER</span><span>PUBLIC MISSION TELEMETRY · STAGE 1</span></footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
