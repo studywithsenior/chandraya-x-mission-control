@@ -210,9 +210,9 @@ function parseMessage(payload) {
 }
 
 // Browser-side VITE_ values are public. This identity must remain read-only.
-const brokerUrl = import.meta.env.VITE_MQTT_WS_URL;
-const username = import.meta.env.VITE_MQTT_READONLY_USERNAME;
-const password = import.meta.env.VITE_MQTT_READONLY_PASSWORD;
+const brokerUrl = import.meta.env.MQTT_WS_URL;
+const username = import.meta.env.MQTT_READONLY_USERNAME;
+const password = import.meta.env.MQTT_READONLY_PASSWORD;
 
 if (!brokerUrl || !username || !password) {
   setConnection(false, 'Broker settings not configured');
