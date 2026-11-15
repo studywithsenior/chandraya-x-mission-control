@@ -86,6 +86,40 @@
             <article><span>ROVER CONTROL</span><strong>DISABLED</strong></article>
             <article><span>OPERATOR SESSION</span><strong id="operator-current">NOT SELECTED</strong></article>
           </section>
+          <section class="workspace-section">
+            <div class="workspace-section-head"><div><p class="eyebrow">MISSION SNAPSHOT</p><h2>Mission overview</h2></div><span class="demo-chip">PREVIEW DATA</span></div>
+            <div class="overview-grid">
+              <article class="overview-card"><span>MISSION PHASE</span><strong>PRE-LAUNCH DEMO</strong><small>School project presentation</small></article>
+              <article class="overview-card"><span>LANDER</span><strong>VIKRAM</strong><small>Model status not connected</small></article>
+              <article class="overview-card"><span>ROVER</span><strong>PRAGYAN</strong><small>Hardware link not verified</small></article>
+              <article class="overview-card"><span>CONTROL MODE</span><strong>VIEW ONLY</strong><small>All movement commands disabled</small></article>
+            </div>
+          </section>
+          <section class="workspace-section workspace-two-column">
+            <article class="panel workspace-event-panel">
+              <div class="panel-head"><div><p class="eyebrow">MISSION TIMELINE</p><h2>Mission event feed</h2></div><span class="panel-index">SAMPLE</span></div>
+              <div class="event-log sample-event-log">
+                <div class="event-row"><time>DEMO 01</time><span>Mission workspace opened (sample entry).</span></div>
+                <div class="event-row"><time>DEMO 02</time><span>Vikram lander system check pending (sample entry).</span></div>
+                <div class="event-row"><time>DEMO 03</time><span>Pragyan rover link awaiting hardware connection (sample entry).</span></div>
+              </div>
+              <p class="workspace-muted">These are labelled sample entries, not live mission events.</p>
+            </article>
+            <article class="panel camera-panel">
+              <div class="panel-head"><div><p class="eyebrow">ROVER IMAGING</p><h2>Camera view</h2></div><span class="panel-index">CAM 01</span></div>
+              <div class="camera-placeholder"><span class="camera-crosshair">＋</span><strong>NO CAMERA SIGNAL</strong><small>Camera stream will appear here after hardware and network integration.</small></div>
+            </article>
+          </section>
+          <section class="panel workspace-connection-panel">
+            <div class="panel-head"><div><p class="eyebrow">SYSTEM DIAGNOSTICS</p><h2>Connection status</h2></div><span class="panel-index">LINKS</span></div>
+            <div class="connection-grid">
+              <div><span>MISSION CONTROL WEBSITE</span><strong class="status-ready">PAGE LOADED</strong></div>
+              <div><span>MQTT BROKER</span><strong>NOT VERIFIED IN THIS PREVIEW</strong></div>
+              <div><span>ESP32 ROVER</span><strong>NOT CONNECTED</strong></div>
+              <div><span>CAMERA STREAM</span><strong>NOT AVAILABLE</strong></div>
+            </div>
+            <p class="workspace-muted">This workspace preview does not read live broker or hardware status. The public dashboard remains the live-telemetry test page.</p>
+          </section>
           <section class="workspace-log panel">
             <div class="panel-head"><div><p class="eyebrow">LOCAL SESSION</p><h2>Activity log</h2></div><span class="panel-index">TEAM</span></div>
             <div id="team-activity-log" class="event-log"><div class="empty-state">Select a team member to record a demo activity.</div></div>
