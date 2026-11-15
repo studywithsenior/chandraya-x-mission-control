@@ -45,8 +45,8 @@ $('team-home').addEventListener('click', (event) => {
   showView('landing');
 });
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.SUPABASE_PUBLISHABLE_KEY;
 const authMessage = $('auth-message');
 const loginForm = $('admin-login-form');
 let supabase = null;
