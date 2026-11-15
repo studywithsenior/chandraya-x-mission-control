@@ -55,12 +55,17 @@
           <h1 class="team-title">TEAM <span>LOGIN</span></h1>
           <p class="landing-copy">The team workspace is reserved for authorised CHANDRAYAAN-X members.</p>
           <article class="team-notice">
-            <span class="notice-mark">SECURE ACCESS</span>
-            <h2>Authentication setup in progress</h2>
-            <p>Team sign-in will be enabled after server-side account verification and access permissions are configured. No password is requested or stored on this preview screen.</p>
-            <span class="notice-status">TEAM WORKSPACE · AUTHENTICATION NOT ENABLED</span>
-            <button class="workspace-preview-button" id="open-workspace-preview" type="button">OPEN WORKSPACE PREVIEW ↗</button>
-            <p class="preview-disclaimer">Demo only. This preview is not private and does not authenticate team members.</p>
+            <span class="notice-mark">SECURE ACCESS / SUPABASE AUTH</span>
+            <h2>Admin sign in</h2>
+            <p>Sign in with the Admin account. Access is granted only when your account is listed in the protected Admin allowlist.</p>
+            <form id="admin-login-form" class="auth-form">
+              <label for="admin-email">EMAIL ADDRESS</label>
+              <input id="admin-email" type="email" autocomplete="username" required />
+              <label for="admin-password">PASSWORD</label>
+              <input id="admin-password" type="password" autocomplete="current-password" required />
+              <button class="workspace-preview-button" id="admin-login-button" type="submit">SIGN IN SECURELY ↗</button>
+              <p id="auth-message" class="auth-message" role="status" aria-live="polite">Admin access only. Do not share your password.</p>
+            </form>
           </article>
         </main>
       </section>
@@ -68,7 +73,7 @@
       <section id="workspace-view" class="workspace-view view-hidden">
         <header class="landing-topbar">
           <a class="brand" href="#" id="workspace-home" aria-label="Back to CHANDRAYAAN-X home"><span class="brand-mark">CX</span><span><strong>CHANDRAYAAN-X</strong><small>TEAM WORKSPACE PREVIEW</small></span></a>
-          <span class="demo-label">DEMO / NOT AUTHENTICATED</span>
+          <div class="workspace-header-actions"><span class="demo-label" id="workspace-access-label">ADMIN / VERIFIED</span><button class="home-button" id="admin-signout" type="button">SIGN OUT</button></div>
         </header>
         <main class="workspace-main">
           <button class="back-link" id="workspace-back" type="button">← BACK TO TEAM ACCESS</button>
