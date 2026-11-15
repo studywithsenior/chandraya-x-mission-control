@@ -12,3 +12,34 @@ main{padding:52px 0 64px}.hero{display:flex;align-items:flex-end;justify-content
 footer{border-top:1px solid #223247;padding:20px 0 26px;display:flex;justify-content:space-between;gap:12px;color:#657b94;font:9px 'DM Mono';letter-spacing:1.2px}
 @media(max-width:850px){#app{padding:0 22px}.telemetry-grid{grid-template-columns:repeat(2,1fr)}.status-strip{grid-template-columns:repeat(2,1fr)}.status-strip>div:nth-child(2){border-right:0}.status-strip>div:nth-child(-n+2){border-bottom:1px solid #263a50}.lower-grid{grid-template-columns:1fr}}
 @media(max-width:560px){#app{padding:0 16px}.topbar{height:68px}.top-meta{font-size:8px;gap:6px}.top-meta .divider{display:none}.brand strong{font-size:11px}.brand small{font-size:8px}.hero{display:block;padding:38px 0 26px}.mission-state{margin-top:24px}.status-strip>div{padding:14px}.status-strip strong{font-size:12px}.tile{padding:16px;min-height:130px}.metric strong{font-size:28px}footer{font-size:8px;flex-direction:column}}
+
+
+/* Mission access portal */
+.view-hidden{display:none!important}
+.landing-view,.team-view{min-height:100vh;padding:0 42px;background:radial-gradient(ellipse at 75% 0%,#183b58 0,transparent 43%),#07111f}
+.landing-topbar{height:82px;max-width:1356px;margin:auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #263a50}
+.landing-tag{display:flex;align-items:center;gap:10px;color:#9aabc0;font:10px 'DM Mono';letter-spacing:1.3px}
+.landing-main,.team-main{max-width:1120px;margin:0 auto;padding:clamp(58px,9vh,110px) 0 34px}
+.landing-title,.team-title{font-size:clamp(40px,7vw,76px);line-height:1.04;letter-spacing:-4px;margin:0;font-weight:800}
+.landing-title span,.team-title span{color:#82c7ef}
+.landing-copy{max-width:620px;color:#9aabc0;font-size:14px;line-height:1.8;margin:20px 0 0}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+.access-card{min-height:270px;text-align:left;padding:27px;background:linear-gradient(145deg,#10263d,#0b1929);border:1px solid #2a4964;color:#e8eef7;display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;transition:border-color .2s,transform .2s}
+.access-card:hover,.access-card:focus-visible{border-color:#79c7ef;transform:translateY(-3px);outline:none}
+.team-card{background:linear-gradient(145deg,#17263a,#101827);border-color:#3b4658}
+.access-number,.notice-mark{font:10px 'DM Mono';letter-spacing:1.5px;color:#7c91a9}
+.access-icon{font-size:28px;color:#82c7ef;margin:25px 0 10px}
+.access-card strong{font-size:22px;letter-spacing:1.2px}
+.access-description{font-size:12px;line-height:1.7;color:#9aabc0;max-width:390px;margin-top:9px}
+.access-action{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:auto;padding-top:28px;color:#8ccdf0;font:10px 'DM Mono';letter-spacing:1.2px}
+.access-action b{font-size:17px}
+.landing-foot{display:flex;justify-content:space-between;gap:15px;border-top:1px solid #223247;margin-top:75px;padding-top:18px;color:#657b94;font:9px 'DM Mono';letter-spacing:1.2px}
+.back-link{background:none;border:0;color:#91a8c0;padding:0;margin:0 0 55px;font:10px 'DM Mono';letter-spacing:1.2px;cursor:pointer}
+.back-link:hover{color:#82c7ef}
+.team-main{max-width:760px}
+.team-title{font-size:clamp(42px,6vw,64px)}
+.team-notice{margin-top:36px;padding:28px;border:1px solid #344b63;background:linear-gradient(145deg,#102238,#0b1929)}
+.team-notice h2{font-size:20px;margin:18px 0 10px}
+.team-notice p{color:#9aabc0;font-size:13px;line-height:1.8;margin:0;max-width:600px}
+.notice-status{display:inline-block;margin-top:24px;padding:9px 12px;border:1px solid #755b36;color:#e5bb79;font:10px 'DM Mono';letter-spacing:1.2px}
+@media(max-width:700px){.landing-view,.team-view{padding:0 18px}.landing-topbar{height:70px}.landing-tag{font-size:8px;letter-spacing:.6px}.access-grid{grid-template-columns:1fr;margin-top:32px}.access-card{min-height:235px}.landing-title,.team-title{letter-spacing:-2.5px}.landing-foot{font-size:8px;flex-direction:column}.landing-main,.team-main{padding-top:55px}.back-link{margin-bottom:42px}}
