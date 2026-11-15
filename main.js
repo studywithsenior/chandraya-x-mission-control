@@ -4,6 +4,8 @@ import './style.css';
 const $ = (id) => document.getElementById(id);
 const TELEMETRY_TOPIC = 'chandraya-x/v1/rover/telemetry';
 const EVENTS_TOPIC = 'chandraya-x/v1/rover/events';
+const ONLINE_TOPIC = 'chandraya-x/v1/rover/online';
+const ACK_TOPIC = 'chandraya-x/v1/rover/command-ack';
 
 let messageCount = 0;
 let lastTelemetryAt = 0;
@@ -44,7 +46,7 @@ function updateTelemetry(data) {
   $('telemetry-age').textContent = 'JUST NOW';
 }
 
-function addEvent(data) {
+function addEvent(data, prefix = '') {
   const log = $('event-log');
   const empty = log.querySelector('.empty-state');
   if (empty) empty.remove();
@@ -54,19 +56,45 @@ function addEvent(data) {
   const time = document.createElement('time');
   time.textContent = new Date().toLocaleTimeString();
   const message = document.createElement('span');
-  message.textContent = typeof data.message === 'string' ? data.message : 'Mission event received';
+  const detail = typeof data === 'string'
+    ? data
+    : (typeof data?.message === 'string' ? data.message : JSON.stringify(data));
+  message.textContent = prefix ? `[${prefix}] ${detail}` : detail;
   row.append(time, message);
   log.prepend(row);
   while (log.children.length > 30) log.lastElementChild.remove();
 }
 
-function parseMessage(payload) {
-  try { return JSON.parse(payload.toString()); }
-  catch { return null; }
+function updatePresence(data) {
+  const value = typeof data === 'string'
+    ? data
+    : (data?.online ?? data?.status ?? data?.state ?? data?.message ?? 'PRESENCE RECEIVED');
+  const normalized = String(value).trim().toLowerCase();
+  let label = String(value).toUpperCase();
+
+  if (value === true || ['online', 'connected', 'ready', 'true', '1'].includes(normalized)) label = 'ONLINE';
+  if (value === false || ['offline', 'disconnected', 'false', '0'].includes(normalized)) label = 'OFFLINE';
+
+  $('rover-presence').textContent = label.slice(0, 32);
+  $('presence-time').textContent = new Date().toLocaleTimeString();
+  addEvent({ message: `Rover presence: ${label}` }, 'LINK');
 }
 
-// Stage 1: only a narrowly permissioned, read-only browser credential belongs here.
-// VITE_* values are visible to every website visitor; never put an operator secret here.
+function updateCommandAck(data) {
+  const detail = typeof data === 'string'
+    ? data
+    : (data?.message ?? data?.status ?? data?.command ?? JSON.stringify(data));
+  $('last-ack').textContent = String(detail).slice(0, 90);
+  addEvent(data, 'COMMAND ACK');
+}
+
+function parseMessage(payload) {
+  const raw = payload.toString();
+  try { return JSON.parse(raw); }
+  catch { return raw; }
+}
+
+// Browser-side VITE_ values are public. This identity must remain read-only.
 const brokerUrl = import.meta.env.VITE_MQTT_WS_URL;
 const username = import.meta.env.VITE_MQTT_READONLY_USERNAME;
 const password = import.meta.env.VITE_MQTT_READONLY_PASSWORD;
@@ -87,7 +115,7 @@ if (!brokerUrl || !username || !password) {
 
   client.on('connect', () => {
     setConnection(true, 'Connected securely');
-    client.subscribe([TELEMETRY_TOPIC, EVENTS_TOPIC], { qos: 0 }, (err) => {
+    client.subscribe([TELEMETRY_TOPIC, EVENTS_TOPIC, ONLINE_TOPIC, ACK_TOPIC], { qos: 0 }, (err) => {
       if (err) setConnection(false, 'Subscription failed');
     });
   });
@@ -96,9 +124,11 @@ if (!brokerUrl || !username || !password) {
   client.on('error', () => setConnection(false, 'Connection error'));
   client.on('message', (topic, payload) => {
     const data = parseMessage(payload);
-    if (!data) return;
+    if (data === null || data === '') return;
     if (topic === TELEMETRY_TOPIC) updateTelemetry(data);
     if (topic === EVENTS_TOPIC) addEvent(data);
+    if (topic === ONLINE_TOPIC) updatePresence(data);
+    if (topic === ACK_TOPIC) updateCommandAck(data);
   });
 }
 
