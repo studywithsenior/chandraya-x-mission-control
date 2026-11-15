@@ -70,3 +70,29 @@ footer{border-top:1px solid #223247;padding:20px 0 26px;display:flex;justify-con
 .workspace-log{margin-top:14px;min-height:190px}
 .workspace-warning{margin-top:18px;padding:13px;border-left:2px solid #c08d4a;background:#101d2b;color:#d6ae75;font:10px/1.7 'DM Mono';letter-spacing:.4px}
 @media(max-width:700px){.workspace-view{padding:0 18px}.operator-panel{align-items:stretch;flex-direction:column}.operator-field,.operator-field select{min-width:0;width:100%}.workspace-stats{grid-template-columns:1fr}.demo-label{font-size:8px;padding:7px}}
+
+/* Team workspace mission overview and presentation panels */
+.workspace-section{margin-top:28px}
+.workspace-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.workspace-section-head h2{font-size:20px;margin:0}
+.demo-chip{border:1px solid #52667b;color:#a9bfd2;padding:7px 10px;font:9px 'DM Mono';letter-spacing:1px}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.overview-card{min-height:125px;padding:18px;border:1px solid #263a50;background:linear-gradient(145deg,#102238,#0b1929)}
+.overview-card span,.connection-grid span{display:block;color:#7c91a9;font:9px 'DM Mono';letter-spacing:1.2px}
+.overview-card strong{display:block;margin-top:13px;color:#dceaf5;font:500 13px 'DM Mono';line-height:1.5}
+.overview-card small{display:block;margin-top:7px;color:#91a5ba;font-size:10px;line-height:1.5}
+.workspace-two-column{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.workspace-event-panel,.camera-panel{min-height:255px}
+.sample-event-log{max-height:none}
+.camera-placeholder{min-height:155px;margin-top:20px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;border:1px dashed #3b5872;background:repeating-linear-gradient(135deg,#0a1929,#0a1929 12px,#0d1e30 12px,#0d1e30 24px)}
+.camera-crosshair{color:#6baed6;font-size:27px}
+.camera-placeholder strong{font:11px 'DM Mono';letter-spacing:1.4px;color:#d6e4f0}
+.camera-placeholder small{max-width:280px;color:#8197ad;font-size:10px;line-height:1.6}
+.workspace-connection-panel{margin-top:14px;min-height:0}
+.connection-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 22px;margin-top:16px}
+.connection-grid>div{padding:14px 0;border-bottom:1px solid #203349}
+.connection-grid strong{display:block;margin-top:8px;color:#d8e7f4;font:10px 'DM Mono';line-height:1.6}
+.connection-grid .status-ready{color:#82c7ef}
+@media(max-width:850px){.overview-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.workspace-two-column{grid-template-columns:1fr}.connection-grid{grid-template-columns:1fr}}
+@media(max-width:420px){.overview-grid{grid-template-columns:1fr}}
