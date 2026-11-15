@@ -9,12 +9,137 @@
   </head>
   <body>
     <div id="app">
+      <section id="landing-view" class="landing-view">
+        <header class="landing-topbar">
+          <a class="brand" href="/" aria-label="CHANDRAYAAN-X home">
+            <span class="brand-mark">CX</span>
+            <span><strong>CHANDRAYAAN-X</strong><small>MISSION ACCESS PORTAL</small></span>
+          </a>
+          <span class="landing-tag"><span class="live-dot"></span> SCHOOL SPACE EXPLORATION PROJECT</span>
+        </header>
+        <main class="landing-main">
+          <p class="eyebrow">MISSION ACCESS / 01</p>
+          <h1 class="landing-title">EXPLORE THE <span>MOON.</span><br/>FOLLOW THE MISSION.</h1>
+          <p class="landing-copy">Welcome to CHANDRAYAAN-X. Choose how you would like to enter mission control.</p>
+          <div class="access-grid">
+            <button class="access-card" id="visitor-entry" type="button">
+              <span class="access-number">01 / PUBLIC ACCESS</span>
+              <span class="access-icon" aria-hidden="true">◉</span>
+              <strong>VISITOR</strong>
+              <span class="access-description">Explore the mission dashboard, rover status, telemetry and mission events.</span>
+              <span class="access-action">OPEN PUBLIC DASHBOARD <b>↗</b></span>
+            </button>
+            <button class="access-card team-card" id="team-entry" type="button">
+              <span class="access-number">02 / RESTRICTED ACCESS</span>
+              <span class="access-icon" aria-hidden="true">⌘</span>
+              <strong>TEAM LOGIN</strong>
+              <span class="access-description">Access the team workspace for authorised mission operations.</span>
+              <span class="access-action">OPEN TEAM ACCESS <b>↗</b></span>
+            </button>
+          </div>
+          <div class="landing-foot"><span>CHANDRAYAAN-X · PRAGYAN ROVER</span><span>MISSION CONTROL SYSTEM / STAGE 1</span></div>
+        </main>
+      </section>
+
+      <section id="team-view" class="team-view view-hidden">
+        <header class="landing-topbar">
+          <a class="brand" href="#" id="team-home" aria-label="Back to CHANDRAYAAN-X home">
+            <span class="brand-mark">CX</span>
+            <span><strong>CHANDRAYAAN-X</strong><small>TEAM ACCESS</small></span>
+          </a>
+          <span class="landing-tag">RESTRICTED AREA</span>
+        </header>
+        <main class="team-main">
+          <button class="back-link" id="team-back" type="button">← BACK TO HOME</button>
+          <p class="eyebrow">AUTHENTICATED OPERATIONS</p>
+          <h1 class="team-title">TEAM <span>LOGIN</span></h1>
+          <p class="landing-copy">The team workspace is reserved for authorised CHANDRAYAAN-X members.</p>
+          <article class="team-notice">
+            <span class="notice-mark">SECURE ACCESS / SUPABASE AUTH</span>
+            <h2>Admin sign in</h2>
+            <p>Sign in with the Admin account. Access is granted only when your account is listed in the protected Admin allowlist.</p>
+            <form id="admin-login-form" class="auth-form">
+              <label for="admin-email">EMAIL ADDRESS</label>
+              <input id="admin-email" type="email" autocomplete="username" required />
+              <label for="admin-password">PASSWORD</label>
+              <input id="admin-password" type="password" autocomplete="current-password" required />
+              <button class="workspace-preview-button" id="admin-login-button" type="submit">SIGN IN SECURELY ↗</button>
+              <p id="auth-message" class="auth-message" role="status" aria-live="polite">Admin access only. Do not share your password.</p>
+            </form>
+          </article>
+        </main>
+      </section>
+
+      <section id="workspace-view" class="workspace-view view-hidden">
+        <header class="landing-topbar">
+          <a class="brand" href="#" id="workspace-home" aria-label="Back to CHANDRAYAAN-X home"><span class="brand-mark">CX</span><span><strong>CHANDRAYAAN-X</strong><small>TEAM WORKSPACE PREVIEW</small></span></a>
+          <div class="workspace-header-actions"><span class="demo-label" id="workspace-access-label">ADMIN / VERIFIED</span><button class="home-button" id="admin-signout" type="button">SIGN OUT</button></div>
+        </header>
+        <main class="workspace-main">
+          <button class="back-link" id="workspace-back" type="button">← BACK TO TEAM ACCESS</button>
+          <p class="eyebrow">MISSION OPERATIONS / PREVIEW</p>
+          <h1 class="team-title">TEAM <span>WORKSPACE</span></h1>
+          <p class="landing-copy">A presentation preview of the team operations area. No rover commands are enabled.</p>
+          <section class="operator-panel">
+            <div><p class="eyebrow">ACTIVE TEAM MEMBER</p><h2>Operator selection</h2><p class="workspace-muted">Choose a name to label this demo session. This selection is local to this browser only.</p></div>
+            <label class="operator-field" for="operator-select">OPERATOR NAME
+              <select id="operator-select"><option value="">Select team member</option><option value="Member 01">Member 01</option><option value="Member 02">Member 02</option><option value="Member 03">Member 03</option><option value="Member 04">Member 04</option><option value="Member 05">Member 05</option><option value="Member 06">Member 06</option><option value="Member 07">Member 07</option><option value="Member 08">Member 08</option><option value="Member 09">Member 09</option><option value="Member 10">Member 10</option><option value="Member 11">Member 11</option><option value="Member 12">Member 12</option><option value="Member 13">Member 13</option><option value="Member 14">Member 14</option><option value="Member 15">Member 15</option><option value="Member 16">Member 16</option><option value="Member 17">Member 17</option></select>
+            </label>
+          </section>
+          <section class="workspace-stats">
+            <article><span>MISSION LINK</span><strong>VIEW ONLY</strong></article>
+            <article><span>ROVER CONTROL</span><strong>DISABLED</strong></article>
+            <article><span>OPERATOR SESSION</span><strong id="operator-current">NOT SELECTED</strong></article>
+          </section>
+          <section class="workspace-section">
+            <div class="workspace-section-head"><div><p class="eyebrow">MISSION SNAPSHOT</p><h2>Mission overview</h2></div><span class="demo-chip">PREVIEW DATA</span></div>
+            <div class="overview-grid">
+              <article class="overview-card"><span>MISSION PHASE</span><strong>PRE-LAUNCH DEMO</strong><small>School project presentation</small></article>
+              <article class="overview-card"><span>LANDER</span><strong>VIKRAM</strong><small>Model status not connected</small></article>
+              <article class="overview-card"><span>ROVER</span><strong>PRAGYAN</strong><small>Hardware link not verified</small></article>
+              <article class="overview-card"><span>CONTROL MODE</span><strong>VIEW ONLY</strong><small>All movement commands disabled</small></article>
+            </div>
+          </section>
+          <section class="workspace-section workspace-two-column">
+            <article class="panel workspace-event-panel">
+              <div class="panel-head"><div><p class="eyebrow">MISSION TIMELINE</p><h2>Mission event feed</h2></div><span class="panel-index">SAMPLE</span></div>
+              <div class="event-log sample-event-log">
+                <div class="event-row"><time>DEMO 01</time><span>Mission workspace opened (sample entry).</span></div>
+                <div class="event-row"><time>DEMO 02</time><span>Vikram lander system check pending (sample entry).</span></div>
+                <div class="event-row"><time>DEMO 03</time><span>Pragyan rover link awaiting hardware connection (sample entry).</span></div>
+              </div>
+              <p class="workspace-muted">These are labelled sample entries, not live mission events.</p>
+            </article>
+            <article class="panel camera-panel">
+              <div class="panel-head"><div><p class="eyebrow">ROVER IMAGING</p><h2>Camera view</h2></div><span class="panel-index">CAM 01</span></div>
+              <div class="camera-placeholder"><span class="camera-crosshair">＋</span><strong>NO CAMERA SIGNAL</strong><small>Camera stream will appear here after hardware and network integration.</small></div>
+            </article>
+          </section>
+          <section class="panel workspace-connection-panel">
+            <div class="panel-head"><div><p class="eyebrow">SYSTEM DIAGNOSTICS</p><h2>Connection status</h2></div><span class="panel-index">LINKS</span></div>
+            <div class="connection-grid">
+              <div><span>MISSION CONTROL WEBSITE</span><strong class="status-ready">PAGE LOADED</strong></div>
+              <div><span>MQTT BROKER</span><strong>NOT VERIFIED IN THIS PREVIEW</strong></div>
+              <div><span>ESP32 ROVER</span><strong>NOT CONNECTED</strong></div>
+              <div><span>CAMERA STREAM</span><strong>NOT AVAILABLE</strong></div>
+            </div>
+            <p class="workspace-muted">This workspace preview does not read live broker or hardware status. The public dashboard remains the live-telemetry test page.</p>
+          </section>
+          <section class="workspace-log panel">
+            <div class="panel-head"><div><p class="eyebrow">LOCAL SESSION</p><h2>Activity log</h2></div><span class="panel-index">TEAM</span></div>
+            <div id="team-activity-log" class="event-log"><div class="empty-state">Select a team member to record a demo activity.</div></div>
+          </section>
+          <p class="workspace-warning">DEMO PREVIEW ONLY · Activity is not saved to a server. This page is not protected by login. Do not enter passwords or use it to control hardware.</p>
+        </main>
+      </section>
+
+      <div id="dashboard-view" class="dashboard-view view-hidden">
       <header class="topbar">
         <a class="brand" href="/" aria-label="CHANDRAYAAN-X home">
           <span class="brand-mark">CX</span>
           <span><strong>CHANDRAYAAN-X</strong><small>MISSION CONTROL / PRAGYAN</small></span>
         </a>
-        <div class="top-meta"><span class="live-dot"></span><span id="connection-label">OFFLINE</span><span class="divider"></span><span>PUBLIC TELEMETRY</span></div>
+        <div class="dashboard-actions"><button class="home-button" id="dashboard-home" type="button">← HOME</button><div class="top-meta"><span class="live-dot"></span><span id="connection-label">OFFLINE</span><span class="divider"></span><span>PUBLIC TELEMETRY</span></div></div>
       </header>
 
       <main>
@@ -34,6 +159,7 @@
         <section class="status-strip" aria-label="Mission status">
           <div><span class="metric-label">ROVER MODE</span><strong id="mode">—</strong></div>
           <div><span class="metric-label">ROVER STATUS</span><strong id="rover-status">NO DATA</strong></div>
+          <div><span class="metric-label">ROVER PRESENCE</span><strong id="rover-presence">UNKNOWN</strong></div>
           <div><span class="metric-label">MISSION SESSION</span><strong id="session">—</strong></div>
           <div><span class="metric-label">MESSAGES RECEIVED</span><strong id="message-count">0</strong></div>
         </section>
@@ -59,6 +185,8 @@
             <div class="panel-head"><div><p class="eyebrow">NETWORK</p><h2>Link diagnostics</h2></div><span class="panel-index">02</span></div>
             <dl class="diagnostics">
               <div><dt>Broker connection</dt><dd id="broker-state">Not configured</dd></div>
+              <div><dt>Rover presence update</dt><dd id="presence-time">No presence received</dd></div>
+              <div><dt>Latest command acknowledgement</dt><dd id="last-ack">None received</dd></div>
               <div><dt>Telemetry topic</dt><dd>Subscribed when connected</dd></div>
               <div><dt>Access level</dt><dd>Public / read-only</dd></div>
               <div><dt>Control channel</dt><dd>Disabled in Stage 1</dd></div>
@@ -69,6 +197,7 @@
       </main>
 
       <footer><span>CHANDRAYAAN-X · PRAGYAN ROVER</span><span>PUBLIC MISSION TELEMETRY · STAGE 1</span></footer>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

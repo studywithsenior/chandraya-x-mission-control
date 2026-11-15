@@ -1,9 +1,126 @@
 import mqtt from 'mqtt';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import './style.css';
 
 const $ = (id) => document.getElementById(id);
+
+const landingView = $('landing-view');
+const teamView = $('team-view');
+const dashboardView = $('dashboard-view');
+const workspaceView = $('workspace-view');
+
+function showView(view) {
+  landingView.classList.toggle('view-hidden', view !== 'landing');
+  teamView.classList.toggle('view-hidden', view !== 'team');
+  dashboardView.classList.toggle('view-hidden', view !== 'dashboard');
+  workspaceView.classList.toggle('view-hidden', view !== 'workspace');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+$('visitor-entry').addEventListener('click', () => showView('dashboard'));
+$('dashboard-home').addEventListener('click', () => showView('landing'));
+$('team-entry').addEventListener('click', () => showView('team'));
+
+$('workspace-back').addEventListener('click', () => showView('team'));
+$('workspace-home').addEventListener('click', (event) => { event.preventDefault(); showView('landing'); });
+$('operator-select').addEventListener('change', (event) => {
+  const name = event.target.value;
+  $('operator-current').textContent = name || 'NOT SELECTED';
+  if (!name) return;
+  const log = $('team-activity-log');
+  const empty = log.querySelector('.empty-state');
+  if (empty) empty.remove();
+  const row = document.createElement('div');
+  row.className = 'event-row';
+  const time = document.createElement('time');
+  time.textContent = new Date().toLocaleTimeString();
+  const message = document.createElement('span');
+  message.textContent = name + ' selected for this local demo session.';
+  row.append(time, message);
+  log.prepend(row);
+});
+$('team-back').addEventListener('click', () => showView('landing'));
+$('team-home').addEventListener('click', (event) => {
+  event.preventDefault();
+  showView('landing');
+});
+
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.SUPABASE_PUBLISHABLE_KEY;
+const authMessage = $('auth-message');
+const loginForm = $('admin-login-form');
+let supabase = null;
+let authCheckInProgress = false;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+} else {
+  const missingConfig = [!supabaseUrl && 'SUPABASE_URL', !supabaseAnonKey && 'SUPABASE_PUBLISHABLE_KEY'].filter(Boolean);
+  authMessage.textContent = `Missing Vercel environment variable: ${missingConfig.join(' and ')}. Check this Preview deployment's build environment.`;
+}
+
+async function verifyAdminAndOpen(session) {
+  if (!supabase || !session?.user) return false;
+  const { data, error } = await supabase
+    .from('admin_users')
+    .select('user_id')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) {
+    authMessage.textContent = 'Could not verify Admin access. Check the Supabase table and Row Level Security policy.';
+    return false;
+  }
+  if (!data) {
+    await supabase.auth.signOut();
+    authMessage.textContent = 'Access denied: this account is not on the Admin allowlist.';
+    return false;
+  }
+  $('workspace-access-label').textContent = 'ADMIN / VERIFIED';
+  showView('workspace');
+  return true;
+}
+
+loginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!supabase) return;
+  const button = $('admin-login-button');
+  button.disabled = true;
+  authMessage.textContent = 'Verifying credentials and Admin permission…';
+  const email = $('admin-email').value.trim();
+  const password = $('admin-password').value;
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    authMessage.textContent = 'Sign-in failed. Check the email and password, then try again.';
+  } else {
+    await verifyAdminAndOpen(data.session);
+  }
+  $('admin-password').value = '';
+  button.disabled = false;
+});
+
+$('admin-signout').addEventListener('click', async () => {
+  if (supabase) await supabase.auth.signOut();
+  loginForm.reset();
+  authMessage.textContent = 'Signed out. Admin sign-in is required to reopen the workspace.';
+  showView('landing');
+});
+
+if (supabase) {
+  supabase.auth.getSession().then(async ({ data }) => {
+    if (data.session) await verifyAdminAndOpen(data.session);
+  });
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (!session && !authCheckInProgress && !workspaceView.classList.contains('view-hidden')) {
+      showView('landing');
+    }
+  });
+}
+
 const TELEMETRY_TOPIC = 'chandraya-x/v1/rover/telemetry';
 const EVENTS_TOPIC = 'chandraya-x/v1/rover/events';
+const ONLINE_TOPIC = 'chandraya-x/v1/rover/online';
+const ACK_TOPIC = 'chandraya-x/v1/rover/command-ack';
 
 let messageCount = 0;
 let lastTelemetryAt = 0;
@@ -44,7 +161,7 @@ function updateTelemetry(data) {
   $('telemetry-age').textContent = 'JUST NOW';
 }
 
-function addEvent(data) {
+function addEvent(data, prefix = '') {
   const log = $('event-log');
   const empty = log.querySelector('.empty-state');
   if (empty) empty.remove();
@@ -54,19 +171,45 @@ function addEvent(data) {
   const time = document.createElement('time');
   time.textContent = new Date().toLocaleTimeString();
   const message = document.createElement('span');
-  message.textContent = typeof data.message === 'string' ? data.message : 'Mission event received';
+  const detail = typeof data === 'string'
+    ? data
+    : (typeof data?.message === 'string' ? data.message : JSON.stringify(data));
+  message.textContent = prefix ? `[${prefix}] ${detail}` : detail;
   row.append(time, message);
   log.prepend(row);
   while (log.children.length > 30) log.lastElementChild.remove();
 }
 
-function parseMessage(payload) {
-  try { return JSON.parse(payload.toString()); }
-  catch { return null; }
+function updatePresence(data) {
+  const value = typeof data === 'string'
+    ? data
+    : (data?.online ?? data?.status ?? data?.state ?? data?.message ?? 'PRESENCE RECEIVED');
+  const normalized = String(value).trim().toLowerCase();
+  let label = String(value).toUpperCase();
+
+  if (value === true || ['online', 'connected', 'ready', 'true', '1'].includes(normalized)) label = 'ONLINE';
+  if (value === false || ['offline', 'disconnected', 'false', '0'].includes(normalized)) label = 'OFFLINE';
+
+  $('rover-presence').textContent = label.slice(0, 32);
+  $('presence-time').textContent = new Date().toLocaleTimeString();
+  addEvent({ message: `Rover presence: ${label}` }, 'LINK');
 }
 
-// Stage 1: only a narrowly permissioned, read-only browser credential belongs here.
-// VITE_* values are visible to every website visitor; never put an operator secret here.
+function updateCommandAck(data) {
+  const detail = typeof data === 'string'
+    ? data
+    : (data?.message ?? data?.status ?? data?.command ?? JSON.stringify(data));
+  $('last-ack').textContent = String(detail).slice(0, 90);
+  addEvent(data, 'COMMAND ACK');
+}
+
+function parseMessage(payload) {
+  const raw = payload.toString();
+  try { return JSON.parse(raw); }
+  catch { return raw; }
+}
+
+// Browser-side VITE_ values are public. This identity must remain read-only.
 const brokerUrl = import.meta.env.VITE_MQTT_WS_URL;
 const username = import.meta.env.VITE_MQTT_READONLY_USERNAME;
 const password = import.meta.env.VITE_MQTT_READONLY_PASSWORD;
@@ -87,7 +230,7 @@ if (!brokerUrl || !username || !password) {
 
   client.on('connect', () => {
     setConnection(true, 'Connected securely');
-    client.subscribe([TELEMETRY_TOPIC, EVENTS_TOPIC], { qos: 0 }, (err) => {
+    client.subscribe([TELEMETRY_TOPIC, EVENTS_TOPIC, ONLINE_TOPIC, ACK_TOPIC], { qos: 0 }, (err) => {
       if (err) setConnection(false, 'Subscription failed');
     });
   });
@@ -96,9 +239,11 @@ if (!brokerUrl || !username || !password) {
   client.on('error', () => setConnection(false, 'Connection error'));
   client.on('message', (topic, payload) => {
     const data = parseMessage(payload);
-    if (!data) return;
+    if (data === null || data === '') return;
     if (topic === TELEMETRY_TOPIC) updateTelemetry(data);
     if (topic === EVENTS_TOPIC) addEvent(data);
+    if (topic === ONLINE_TOPIC) updatePresence(data);
+    if (topic === ACK_TOPIC) updateCommandAck(data);
   });
 }
 
