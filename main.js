@@ -1,4 +1,5 @@
 import mqtt from 'mqtt';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import './style.css';
 
 const $ = (id) => document.getElementById(id);
@@ -19,7 +20,7 @@ function showView(view) {
 $('visitor-entry').addEventListener('click', () => showView('dashboard'));
 $('dashboard-home').addEventListener('click', () => showView('landing'));
 $('team-entry').addEventListener('click', () => showView('team'));
-$('open-workspace-preview').addEventListener('click', () => showView('workspace'));
+
 $('workspace-back').addEventListener('click', () => showView('team'));
 $('workspace-home').addEventListener('click', (event) => { event.preventDefault(); showView('landing'); });
 $('operator-select').addEventListener('change', (event) => {
@@ -43,6 +44,77 @@ $('team-home').addEventListener('click', (event) => {
   event.preventDefault();
   showView('landing');
 });
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const authMessage = $('auth-message');
+const loginForm = $('admin-login-form');
+let supabase = null;
+let authCheckInProgress = false;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+} else {
+  authMessage.textContent = 'Authentication configuration is missing. Ask the project administrator to check Vercel environment variables.';
+}
+
+async function verifyAdminAndOpen(session) {
+  if (!supabase || !session?.user) return false;
+  const { data, error } = await supabase
+    .from('admin_users')
+    .select('user_id')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) {
+    authMessage.textContent = 'Could not verify Admin access. Check the Supabase table and Row Level Security policy.';
+    return false;
+  }
+  if (!data) {
+    await supabase.auth.signOut();
+    authMessage.textContent = 'Access denied: this account is not on the Admin allowlist.';
+    return false;
+  }
+  $('workspace-access-label').textContent = 'ADMIN / VERIFIED';
+  showView('workspace');
+  return true;
+}
+
+loginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!supabase) return;
+  const button = $('admin-login-button');
+  button.disabled = true;
+  authMessage.textContent = 'Verifying credentials and Admin permission…';
+  const email = $('admin-email').value.trim();
+  const password = $('admin-password').value;
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    authMessage.textContent = 'Sign-in failed. Check the email and password, then try again.';
+  } else {
+    await verifyAdminAndOpen(data.session);
+  }
+  $('admin-password').value = '';
+  button.disabled = false;
+});
+
+$('admin-signout').addEventListener('click', async () => {
+  if (supabase) await supabase.auth.signOut();
+  loginForm.reset();
+  authMessage.textContent = 'Signed out. Admin sign-in is required to reopen the workspace.';
+  showView('landing');
+});
+
+if (supabase) {
+  supabase.auth.getSession().then(async ({ data }) => {
+    if (data.session) await verifyAdminAndOpen(data.session);
+  });
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (!session && !authCheckInProgress && !workspaceView.classList.contains('view-hidden')) {
+      showView('landing');
+    }
+  });
+}
 
 const TELEMETRY_TOPIC = 'chandraya-x/v1/rover/telemetry';
 const EVENTS_TOPIC = 'chandraya-x/v1/rover/events';
