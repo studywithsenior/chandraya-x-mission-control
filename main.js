@@ -15,6 +15,7 @@ function showView(view) {
 }
 
 $('visitor-entry').addEventListener('click', () => showView('dashboard'));
+$('dashboard-home').addEventListener('click', () => showView('landing'));
 $('team-entry').addEventListener('click', () => showView('team'));
 $('team-back').addEventListener('click', () => showView('landing'));
 $('team-home').addEventListener('click', (event) => {
