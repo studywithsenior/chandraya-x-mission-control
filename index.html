@@ -34,6 +34,7 @@
         <section class="status-strip" aria-label="Mission status">
           <div><span class="metric-label">ROVER MODE</span><strong id="mode">—</strong></div>
           <div><span class="metric-label">ROVER STATUS</span><strong id="rover-status">NO DATA</strong></div>
+          <div><span class="metric-label">ROVER PRESENCE</span><strong id="rover-presence">UNKNOWN</strong></div>
           <div><span class="metric-label">MISSION SESSION</span><strong id="session">—</strong></div>
           <div><span class="metric-label">MESSAGES RECEIVED</span><strong id="message-count">0</strong></div>
         </section>
@@ -59,6 +60,8 @@
             <div class="panel-head"><div><p class="eyebrow">NETWORK</p><h2>Link diagnostics</h2></div><span class="panel-index">02</span></div>
             <dl class="diagnostics">
               <div><dt>Broker connection</dt><dd id="broker-state">Not configured</dd></div>
+              <div><dt>Rover presence update</dt><dd id="presence-time">No presence received</dd></div>
+              <div><dt>Latest command acknowledgement</dt><dd id="last-ack">None received</dd></div>
               <div><dt>Telemetry topic</dt><dd>Subscribed when connected</dd></div>
               <div><dt>Access level</dt><dd>Public / read-only</dd></div>
               <div><dt>Control channel</dt><dd>Disabled in Stage 1</dd></div>
