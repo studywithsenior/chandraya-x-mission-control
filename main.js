@@ -55,7 +55,8 @@ let authCheckInProgress = false;
 if (supabaseUrl && supabaseAnonKey) {
   supabase = createClient(supabaseUrl, supabaseAnonKey);
 } else {
-  authMessage.textContent = 'Authentication configuration is missing. Ask the project administrator to check Vercel environment variables.';
+  const missingConfig = [!supabaseUrl && 'SUPABASE_URL', !supabaseAnonKey && 'SUPABASE_PUBLISHABLE_KEY'].filter(Boolean);
+  authMessage.textContent = `Missing Vercel environment variable: ${missingConfig.join(' and ')}. Check this Preview deployment's build environment.`;
 }
 
 async function verifyAdminAndOpen(session) {
