@@ -2,6 +2,26 @@ import mqtt from 'mqtt';
 import './style.css';
 
 const $ = (id) => document.getElementById(id);
+
+const landingView = $('landing-view');
+const teamView = $('team-view');
+const dashboardView = $('dashboard-view');
+
+function showView(view) {
+  landingView.classList.toggle('view-hidden', view !== 'landing');
+  teamView.classList.toggle('view-hidden', view !== 'team');
+  dashboardView.classList.toggle('view-hidden', view !== 'dashboard');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+$('visitor-entry').addEventListener('click', () => showView('dashboard'));
+$('team-entry').addEventListener('click', () => showView('team'));
+$('team-back').addEventListener('click', () => showView('landing'));
+$('team-home').addEventListener('click', (event) => {
+  event.preventDefault();
+  showView('landing');
+});
+
 const TELEMETRY_TOPIC = 'chandraya-x/v1/rover/telemetry';
 const EVENTS_TOPIC = 'chandraya-x/v1/rover/events';
 const ONLINE_TOPIC = 'chandraya-x/v1/rover/online';
