@@ -43,3 +43,10 @@ footer{border-top:1px solid #223247;padding:20px 0 26px;display:flex;justify-con
 .team-notice p{color:#9aabc0;font-size:13px;line-height:1.8;margin:0;max-width:600px}
 .notice-status{display:inline-block;margin-top:24px;padding:9px 12px;border:1px solid #755b36;color:#e5bb79;font:10px 'DM Mono';letter-spacing:1.2px}
 @media(max-width:700px){.landing-view,.team-view{padding:0 18px}.landing-topbar{height:70px}.landing-tag{font-size:8px;letter-spacing:.6px}.access-grid{grid-template-columns:1fr;margin-top:32px}.access-card{min-height:235px}.landing-title,.team-title{letter-spacing:-2.5px}.landing-foot{font-size:8px;flex-direction:column}.landing-main,.team-main{padding-top:55px}.back-link{margin-bottom:42px}}
+
+
+/* Clear return-to-portal navigation */
+.dashboard-actions{display:flex;align-items:center;gap:22px}
+.home-button{border:1px solid #36536d;background:#0c1a2b;color:#a9c9df;padding:9px 13px;font:10px 'DM Mono';letter-spacing:1.2px;cursor:pointer}
+.home-button:hover,.home-button:focus-visible{border-color:#82c7ef;color:#e8eef7;outline:none}
+@media(max-width:560px){.dashboard-actions{gap:10px;flex-direction:column-reverse;align-items:flex-end}.home-button{padding:7px 10px}}
