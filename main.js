@@ -6,17 +6,38 @@ const $ = (id) => document.getElementById(id);
 const landingView = $('landing-view');
 const teamView = $('team-view');
 const dashboardView = $('dashboard-view');
+const workspaceView = $('workspace-view');
 
 function showView(view) {
   landingView.classList.toggle('view-hidden', view !== 'landing');
   teamView.classList.toggle('view-hidden', view !== 'team');
   dashboardView.classList.toggle('view-hidden', view !== 'dashboard');
+  workspaceView.classList.toggle('view-hidden', view !== 'workspace');
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 $('visitor-entry').addEventListener('click', () => showView('dashboard'));
 $('dashboard-home').addEventListener('click', () => showView('landing'));
 $('team-entry').addEventListener('click', () => showView('team'));
+$('open-workspace-preview').addEventListener('click', () => showView('workspace'));
+$('workspace-back').addEventListener('click', () => showView('team'));
+$('workspace-home').addEventListener('click', (event) => { event.preventDefault(); showView('landing'); });
+$('operator-select').addEventListener('change', (event) => {
+  const name = event.target.value;
+  $('operator-current').textContent = name || 'NOT SELECTED';
+  if (!name) return;
+  const log = $('team-activity-log');
+  const empty = log.querySelector('.empty-state');
+  if (empty) empty.remove();
+  const row = document.createElement('div');
+  row.className = 'event-row';
+  const time = document.createElement('time');
+  time.textContent = new Date().toLocaleTimeString();
+  const message = document.createElement('span');
+  message.textContent = name + ' selected for this local demo session.';
+  row.append(time, message);
+  log.prepend(row);
+});
 $('team-back').addEventListener('click', () => showView('landing'));
 $('team-home').addEventListener('click', (event) => {
   event.preventDefault();
