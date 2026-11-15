@@ -9,6 +9,61 @@
   </head>
   <body>
     <div id="app">
+      <section id="landing-view" class="landing-view">
+        <header class="landing-topbar">
+          <a class="brand" href="/" aria-label="CHANDRAYAAN-X home">
+            <span class="brand-mark">CX</span>
+            <span><strong>CHANDRAYAAN-X</strong><small>MISSION ACCESS PORTAL</small></span>
+          </a>
+          <span class="landing-tag"><span class="live-dot"></span> SCHOOL SPACE EXPLORATION PROJECT</span>
+        </header>
+        <main class="landing-main">
+          <p class="eyebrow">MISSION ACCESS / 01</p>
+          <h1 class="landing-title">EXPLORE THE <span>MOON.</span><br/>FOLLOW THE MISSION.</h1>
+          <p class="landing-copy">Welcome to CHANDRAYAAN-X. Choose how you would like to enter mission control.</p>
+          <div class="access-grid">
+            <button class="access-card" id="visitor-entry" type="button">
+              <span class="access-number">01 / PUBLIC ACCESS</span>
+              <span class="access-icon" aria-hidden="true">◉</span>
+              <strong>VISITOR</strong>
+              <span class="access-description">Explore the mission dashboard, rover status, telemetry and mission events.</span>
+              <span class="access-action">OPEN PUBLIC DASHBOARD <b>↗</b></span>
+            </button>
+            <button class="access-card team-card" id="team-entry" type="button">
+              <span class="access-number">02 / RESTRICTED ACCESS</span>
+              <span class="access-icon" aria-hidden="true">⌘</span>
+              <strong>TEAM LOGIN</strong>
+              <span class="access-description">Access the team workspace for authorised mission operations.</span>
+              <span class="access-action">OPEN TEAM ACCESS <b>↗</b></span>
+            </button>
+          </div>
+          <div class="landing-foot"><span>CHANDRAYAAN-X · PRAGYAN ROVER</span><span>MISSION CONTROL SYSTEM / STAGE 1</span></div>
+        </main>
+      </section>
+
+      <section id="team-view" class="team-view view-hidden">
+        <header class="landing-topbar">
+          <a class="brand" href="#" id="team-home" aria-label="Back to CHANDRAYAAN-X home">
+            <span class="brand-mark">CX</span>
+            <span><strong>CHANDRAYAAN-X</strong><small>TEAM ACCESS</small></span>
+          </a>
+          <span class="landing-tag">RESTRICTED AREA</span>
+        </header>
+        <main class="team-main">
+          <button class="back-link" id="team-back" type="button">← BACK TO HOME</button>
+          <p class="eyebrow">AUTHENTICATED OPERATIONS</p>
+          <h1 class="team-title">TEAM <span>LOGIN</span></h1>
+          <p class="landing-copy">The team workspace is reserved for authorised CHANDRAYAAN-X members.</p>
+          <article class="team-notice">
+            <span class="notice-mark">SECURE ACCESS</span>
+            <h2>Authentication setup in progress</h2>
+            <p>Team sign-in will be enabled after server-side account verification and access permissions are configured. No password is requested or stored on this preview screen.</p>
+            <span class="notice-status">TEAM WORKSPACE · NOT YET ENABLED</span>
+          </article>
+        </main>
+      </section>
+
+      <div id="dashboard-view" class="dashboard-view view-hidden">
       <header class="topbar">
         <a class="brand" href="/" aria-label="CHANDRAYAAN-X home">
           <span class="brand-mark">CX</span>
@@ -72,6 +127,7 @@
       </main>
 
       <footer><span>CHANDRAYAAN-X · PRAGYAN ROVER</span><span>PUBLIC MISSION TELEMETRY · STAGE 1</span></footer>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>
