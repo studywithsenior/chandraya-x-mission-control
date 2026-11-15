@@ -58,8 +58,39 @@
             <span class="notice-mark">SECURE ACCESS</span>
             <h2>Authentication setup in progress</h2>
             <p>Team sign-in will be enabled after server-side account verification and access permissions are configured. No password is requested or stored on this preview screen.</p>
-            <span class="notice-status">TEAM WORKSPACE · NOT YET ENABLED</span>
+            <span class="notice-status">TEAM WORKSPACE · AUTHENTICATION NOT ENABLED</span>
+            <button class="workspace-preview-button" id="open-workspace-preview" type="button">OPEN WORKSPACE PREVIEW ↗</button>
+            <p class="preview-disclaimer">Demo only. This preview is not private and does not authenticate team members.</p>
           </article>
+        </main>
+      </section>
+
+      <section id="workspace-view" class="workspace-view view-hidden">
+        <header class="landing-topbar">
+          <a class="brand" href="#" id="workspace-home" aria-label="Back to CHANDRAYAAN-X home"><span class="brand-mark">CX</span><span><strong>CHANDRAYAAN-X</strong><small>TEAM WORKSPACE PREVIEW</small></span></a>
+          <span class="demo-label">DEMO / NOT AUTHENTICATED</span>
+        </header>
+        <main class="workspace-main">
+          <button class="back-link" id="workspace-back" type="button">← BACK TO TEAM ACCESS</button>
+          <p class="eyebrow">MISSION OPERATIONS / PREVIEW</p>
+          <h1 class="team-title">TEAM <span>WORKSPACE</span></h1>
+          <p class="landing-copy">A presentation preview of the team operations area. No rover commands are enabled.</p>
+          <section class="operator-panel">
+            <div><p class="eyebrow">ACTIVE TEAM MEMBER</p><h2>Operator selection</h2><p class="workspace-muted">Choose a name to label this demo session. This selection is local to this browser only.</p></div>
+            <label class="operator-field" for="operator-select">OPERATOR NAME
+              <select id="operator-select"><option value="">Select team member</option><option value="Member 01">Member 01</option><option value="Member 02">Member 02</option><option value="Member 03">Member 03</option><option value="Member 04">Member 04</option><option value="Member 05">Member 05</option><option value="Member 06">Member 06</option><option value="Member 07">Member 07</option><option value="Member 08">Member 08</option><option value="Member 09">Member 09</option><option value="Member 10">Member 10</option><option value="Member 11">Member 11</option><option value="Member 12">Member 12</option><option value="Member 13">Member 13</option><option value="Member 14">Member 14</option><option value="Member 15">Member 15</option><option value="Member 16">Member 16</option><option value="Member 17">Member 17</option></select>
+            </label>
+          </section>
+          <section class="workspace-stats">
+            <article><span>MISSION LINK</span><strong>VIEW ONLY</strong></article>
+            <article><span>ROVER CONTROL</span><strong>DISABLED</strong></article>
+            <article><span>OPERATOR SESSION</span><strong id="operator-current">NOT SELECTED</strong></article>
+          </section>
+          <section class="workspace-log panel">
+            <div class="panel-head"><div><p class="eyebrow">LOCAL SESSION</p><h2>Activity log</h2></div><span class="panel-index">TEAM</span></div>
+            <div id="team-activity-log" class="event-log"><div class="empty-state">Select a team member to record a demo activity.</div></div>
+          </section>
+          <p class="workspace-warning">DEMO PREVIEW ONLY · Activity is not saved to a server. This page is not protected by login. Do not enter passwords or use it to control hardware.</p>
         </main>
       </section>
 
